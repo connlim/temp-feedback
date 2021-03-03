@@ -1,3 +1,4 @@
+import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -35,16 +36,18 @@ export default function Feedback(props) {
     alert(inputText);
   };
 
-  if (!props.hasOwnProperty("feedback")) {
-    return <>No feedback found!</>;
+  let feedbackCards;
+  if (props.hasOwnProperty("feedback") && props.feedback.length > 0) {
+    feedbackCards = props.feedback.map((feedback, index) => (
+      <FeedbackCard
+        key={index}
+        dateTime={feedback.dateTime}
+        text={feedback.text}
+      />
+    ));
+  } else {
+    feedbackCards = <div>No feedback found</div>;
   }
-  const feedbackCards = props.feedback.map((feedback, index) => (
-    <FeedbackCard
-      key={index}
-      dateTime={feedback.dateTime}
-      text={feedback.text}
-    />
-  ));
 
   return (
     <>
@@ -77,50 +80,4 @@ export default function Feedback(props) {
       </Container>
     </>
   );
-}
-
-export async function getStaticProps(context) {
-  // const res = await fetch("");
-  // const data = await res.json();
-
-  // if (data == null) {
-  //   return {
-  //     props: { },
-  //   };
-  // } else {
-  //   return {
-  //     props: {feedback: data.feedback}
-  //   }
-  // }
-  let feedback = [
-    {
-      dateTime: "2021-02-19T15:43:00Z",
-      text: "The quick brown fox jumps over the lazy dog",
-    },
-    {
-      dateTime: "2021-02-22T15:43:00Z",
-      text: "The quick brown fox jumps over the lazy dog 2",
-    },
-    {
-      dateTime: "2021-02-23T15:43:00Z",
-      text: "The quick brown fox jumps over the lazy dog 3",
-    },
-  ];
-  feedback.sort((a, b) => {
-    const x = dayjs(a);
-    const y = dayjs(b);
-    if (x.isBefore(y)) {
-      return 1;
-    } else if (x.isSame(y)) {
-      return 0;
-    } else {
-      return -1;
-    }
-  });
-
-  return {
-    props: {
-      feedback,
-    },
-  };
 }

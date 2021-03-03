@@ -1,65 +1,65 @@
-import Head from "next/head";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import styles from "../styles/Home.module.css";
+import Feedback from "../views/feedback";
+import Welcome from "../views/welcome";
+import dayjs from "dayjs";
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Container className="d-flex flex-column flex-grow-1 justify-content-center align-items-center py-5">
-        <h1 className={styles.title}>Ephemeral Feedback</h1>
+export default function Index(props) {
+  if (props.subdomain === "www") {
+    return <Welcome />;
+  } else {
+    return <Feedback feedback={props.feedback} />;
+  }
+}
 
-        <div className={styles.card}>
-          <InputGroup className="mb-3">
-            <FormControl
-              placeholder="your subdomain name"
-              aria-label="your subdomain name"
-              aria-describedby="basic-addon"
-            />
-            <InputGroup.Append>
-              <InputGroup.Text id="basic-addon">
-                .ephemeralfeedback.com
-              </InputGroup.Text>
-            </InputGroup.Append>
-          </InputGroup>
-          <Button variant="primary">Create</Button>
-        </div>
+export async function getServerSideProps(context) {
+  const subdomain = context.req.headers.host.split(".")[0];
+  console.log(subdomain);
+  let feedback;
 
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+  if (subdomain === "www") {
+    feedback = null;
+  } else {
+    // const res = await axios.get("");
 
-        <div className={styles.grid}>
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </Container>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  );
+    // if ("feedback" in res.data) {
+    //   return {
+    //     props: {feedback: data.feedback}
+    //   }
+    // } else {
+    //   return {
+    //     props: { },
+    //   };
+    // }
+    feedback = [
+      {
+        dateTime: "2021-02-19T15:43:00Z",
+        text: "The quick brown fox jumps over the lazy dog",
+      },
+      {
+        dateTime: "2021-02-22T15:43:00Z",
+        text: "The quick brown fox jumps over the lazy dog 2",
+      },
+      {
+        dateTime: "2021-02-23T15:43:00Z",
+        text: "The quick brown fox jumps over the lazy dog 3",
+      },
+    ];
+    feedback.sort((a, b) => {
+      const x = dayjs(a);
+      const y = dayjs(b);
+      if (x.isBefore(y)) {
+        return 1;
+      } else if (x.isSame(y)) {
+        return 0;
+      } else {
+        return -1;
+      }
+    });
+  }
+
+  return {
+    props: {
+      subdomain,
+      feedback,
+    },
+  };
 }
