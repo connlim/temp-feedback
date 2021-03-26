@@ -5,31 +5,40 @@ exports.handler = async (event) => {
   console.log("Received event: " + JSON.stringify(event));
   const body = JSON.parse(event.body);
 
-  if (body && body.subdomain) {
+  if (body && body.subdomain && body.feedback) {
     console.log("Received body: " + event.body);
+    const newFeedback = { text: body.feedback, dateTime: Date.now() };
     const params = {
       TableName: "EphemeralFeedback",
-      Item: {
+      Key: {
         subdomain: body.subdomain,
-        createdAt: Date.now(),
-        feedback: [],
       },
-      ConditionExpression: "attribute_not_exists(subdomain)",
+      ConditionExpression: "subdomain = :subdomain",
+      UpdateExpression:
+        "SET feedback = list_append(if_not_exists(feedback, :empty_list), :item)",
+      ExpressionAttributeValues: {
+        ":item": [newFeedback],
+        ":empty_list": [],
+        ":subdomain": body.subdomain,
+      },
     };
     try {
-      const data = await ddb.put(params).promise();
+      const data = await ddb.update(params).promise();
       console.log(data);
       return {
         statusCode: 200,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(params.Item),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify(newFeedback),
       };
     } catch (error) {
       console.log(error);
       if (error.code === "ConditionalCheckFailedException") {
         return {
           statusCode: 400,
-          body: JSON.stringify("Subdomain already exists!"),
+          body: JSON.stringify("No such subdomain found!"),
         };
       } else {
         return {
@@ -41,7 +50,7 @@ exports.handler = async (event) => {
   } else {
     return {
       statusCode: 400,
-      body: JSON.stringify("No subdomain given!"),
+      body: JSON.stringify("Invalid request!"),
     };
   }
 };
