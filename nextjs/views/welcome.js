@@ -5,10 +5,34 @@ import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import styles from "../styles/Home.module.css";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 export default function Welcome(props) {
-  const createSubdomain = (event) => {
-    // axios.post("");
+  const router = useRouter();
+  const [inputText, setInputText] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const updateSubdomainInput = (event) => {
+    setInputText(event.target.value);
+  };
+
+  const createSubdomain = () => {
+    setIsSubmitting(true)
+    axios
+      .post(
+        "https://07ncbm8zzg.execute-api.us-east-2.amazonaws.com/CreateSubdomain",
+        { subdomain: inputText }
+      )
+      .then(function (res) {
+        if (res.status === 200) {
+          window.location.href = `http://${res.data.subdomain}.localhost:3000`;
+        }
+      })
+      .catch(function (err) {
+        console.log(err);
+        setIsSubmitting(false)
+      });
   };
 
   return (
@@ -23,6 +47,8 @@ export default function Welcome(props) {
         <div className={styles.card}>
           <InputGroup className="mb-3">
             <FormControl
+              value={inputText}
+              onChange={updateSubdomainInput}
               placeholder="your subdomain name"
               aria-label="your subdomain name"
               aria-describedby="basic-addon"
@@ -33,7 +59,16 @@ export default function Welcome(props) {
               </InputGroup.Text>
             </InputGroup.Append>
           </InputGroup>
-          <Button variant="primary">Create</Button>
+          <Button variant="primary" type="button" onClick={createSubdomain}>
+            {isSubmitting && (
+              <span
+                className="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+            )}
+            {isSubmitting ? " Creating..." : "Create"}
+          </Button>
         </div>
 
         <p className={styles.description}>
