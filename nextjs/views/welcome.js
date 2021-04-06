@@ -1,15 +1,8 @@
 import axios from "axios";
-import Head from "next/head";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import styles from "../styles/Home.module.css";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import Header from "./header";
+import { useState, useRef } from "react";
 
 export default function Welcome(props) {
-  const router = useRouter();
   const [inputText, setInputText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -18,7 +11,7 @@ export default function Welcome(props) {
   };
 
   const createSubdomain = () => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     axios
       .post(
         "https://07ncbm8zzg.execute-api.us-east-2.amazonaws.com/CreateSubdomain",
@@ -31,35 +24,33 @@ export default function Welcome(props) {
       })
       .catch(function (err) {
         console.log(err);
-        setIsSubmitting(false)
+        setIsSubmitting(false);
       });
   };
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Container className="d-flex flex-column flex-grow-1 justify-content-center align-items-center py-5">
-        <h1 className={styles.title}>Ephemeral Feedback</h1>
-
-        <div className={styles.card}>
-          <InputGroup className="mb-3">
-            <FormControl
+    <>
+      <Header title="Ephemeral Feedback"></Header>
+      <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-gray-50">
+        <h1 className="mb-5 text-5xl">Ephemeral Feedback</h1>
+        <h2 className="mb-10 text-md">
+          Create a temporary URL to collect feedback!
+        </h2>
+        <div className="flex flex-col items-center w-full px-6 py-8 m-2 bg-white shadow-md mb-14 xl:w-3/5 rounded-3xl">
+          <div className="w-full">
+            <input
+              className="p-2 text-lg text-center text-gray-700 placeholder-gray-400 bg-white border-b-2 border-gray-400 outline-none appearance-none md:text-3xl md:text-right focus:border-indigo-600"
+              placeholder="Your Custom Subdomain"
               value={inputText}
               onChange={updateSubdomainInput}
-              placeholder="your subdomain name"
-              aria-label="your subdomain name"
-              aria-describedby="basic-addon"
             />
-            <InputGroup.Append>
-              <InputGroup.Text id="basic-addon">
-                .ephemeralfeedback.com
-              </InputGroup.Text>
-            </InputGroup.Append>
-          </InputGroup>
-          <Button variant="primary" type="button" onClick={createSubdomain}>
+            <span className="inline-block mt-2 ml-2 text-md md:text-xl">.ephemeralfeedback.com</span>
+          </div>
+          <button
+            className="w-32 px-4 py-2 mt-8 font-semibold text-white bg-indigo-500 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 focus:ring-offset-2"
+            type="button"
+            onClick={createSubdomain}
+          >
             {isSubmitting && (
               <span
                 className="spinner-border spinner-border-sm"
@@ -68,36 +59,19 @@ export default function Welcome(props) {
               ></span>
             )}
             {isSubmitting ? " Creating..." : "Create"}
-          </Button>
+          </button>
         </div>
-
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        <div className="max-w-xl">
+          <h2 className="text-2xl">What is Ephemeral Feedback?</h2>
+          <p>
+            Sapiente tenetur consequatur aspernatur. Quia consequatur
+            consectetur perspiciatis qui. Quod autem officia numquam officiis
+            dolor. Voluptatibus velit quam asperiores corrupti ut voluptatem
+            consectetur ut. Fugiat maiores eius dolore ab fugit consequatur
+            assumenda aut. Dolorem quia vel tempora accusantium aut.
+          </p>
         </div>
-      </Container>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,28 +1,20 @@
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
-import Head from "next/head";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Header from "./header";
 
 dayjs.extend(relativeTime);
 
 function FeedbackCard(props) {
   return (
-    <Card className="m-2">
-      <Card.Body>
-        <Card.Subtitle className="mb-2 text-muted text-right">
-          {dayjs(props.dateTime).fromNow()}
-        </Card.Subtitle>
-        <Card.Text>{props.text}</Card.Text>
-      </Card.Body>
-    </Card>
+    <div className="flex flex-col p-6 m-2 text-left bg-white border border-gray-300 rounded-lg">
+      <div className="self-end text-gray-600">
+        {dayjs(props.dateTime).fromNow()}
+      </div>
+      <div>{props.text}</div>
+    </div>
   );
 }
 
@@ -84,19 +76,21 @@ export default function Feedback(props) {
   let content;
   if (props.subdomainExists) {
     content = (
-      <>
-        <Form className="m-2 w-100">
-          <Form.Group controlId="">
-            <Form.Label>Example textarea</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              value={inputText}
-              onChange={updateFeedbackInput}
-              placeholder="Enter your feedback!"
-            />
-          </Form.Group>
-          <Button variant="primary" type="button" onClick={submitFeedback}>
+      <div className="flex flex-col items-center w-full">
+        <div className="flex flex-col items-center w-full px-12 pt-10 pb-8 m-2 bg-white shadow-md mb-14 xl:w-1/2 rounded-2xl">
+          <textarea
+            className="w-full px-4 py-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-400 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+            value={inputText}
+            rows="6"
+            onChange={updateFeedbackInput}
+            placeholder="Enter your feedback here!"
+          />
+          <button
+            className="w-32 px-4 py-2 mt-8 font-semibold text-white bg-indigo-500 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 focus:ring-offset-2"
+            variant="primary"
+            type="button"
+            onClick={submitFeedback}
+          >
             {isSubmitting && (
               <span
                 className="spinner-border spinner-border-sm"
@@ -105,13 +99,10 @@ export default function Feedback(props) {
               ></span>
             )}
             {isSubmitting ? " Sending..." : "Submit"}
-          </Button>
-        </Form>
-
-        <Row className="justify-content-center">
-          <Col lg={8}>{feedbackCards}</Col>
-        </Row>
-      </>
+          </button>
+        </div>
+        <div className="w-full md:w-1/2 lg:w-1/3">{feedbackCards}</div>
+      </div>
     );
   } else {
     content = <div>No subdomain found</div>;
@@ -119,14 +110,11 @@ export default function Feedback(props) {
 
   return (
     <>
-      <Head>
-        <title>Feedback</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Container className="py-4">
-        <h1>Ephemeral Feedback</h1>
+      <Header title="Feedback"></Header>
+      <div className="flex flex-col items-center w-full min-h-screen bg-gray-50">
+        <h1 className="p-2 m-10 text-5xl">Ephemeral Feedback</h1>
         {content}
-      </Container>
+      </div>
     </>
   );
 }
