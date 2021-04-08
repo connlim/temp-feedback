@@ -11,7 +11,7 @@ exports.handler = async (event) => {
       TableName: "EphemeralFeedback",
       Item: {
         subdomain: body.subdomain,
-        createdAt: Date.now(),
+        createdAt: Math.floor(Date.now() / 1000),
         feedback: [],
       },
       ConditionExpression: "attribute_not_exists(subdomain)",

@@ -11,7 +11,7 @@ function FeedbackCard(props) {
   return (
     <div className="flex flex-col p-6 m-2 text-left bg-white border border-gray-300 rounded-lg">
       <div className="self-end text-gray-600">
-        {dayjs(props.dateTime).fromNow()}
+        {dayjs.unix(props.dateTime).fromNow()}
       </div>
       <div>{props.text}</div>
     </div>

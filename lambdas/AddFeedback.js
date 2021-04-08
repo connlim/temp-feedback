@@ -7,7 +7,7 @@ exports.handler = async (event) => {
 
   if (body && body.subdomain && body.feedback) {
     console.log("Received body: " + event.body);
-    const newFeedback = { text: body.feedback, dateTime: Date.now() };
+    const newFeedback = { text: body.feedback, dateTime: Math.floor(Date.now() / 1000) };
     const params = {
       TableName: "EphemeralFeedback",
       Key: {
