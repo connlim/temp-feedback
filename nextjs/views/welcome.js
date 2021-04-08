@@ -40,11 +40,13 @@ export default function Welcome(props) {
           <div className="w-full">
             <input
               className="p-2 text-lg text-center text-gray-700 placeholder-gray-400 bg-white border-b-2 border-gray-400 outline-none appearance-none md:text-3xl md:text-right focus:border-indigo-600"
-              placeholder="Your Custom Subdomain"
+              placeholder="your-custom-subdomain"
               value={inputText}
               onChange={updateSubdomainInput}
             />
-            <span className="inline-block mt-2 ml-2 text-md md:text-xl">.ephemeralfeedback.com</span>
+            <span className="inline-block mt-2 ml-2 text-md md:text-xl">
+              .ephemeralfeedback.com
+            </span>
           </div>
           <button
             className="w-32 px-4 py-2 mt-8 font-semibold text-white bg-indigo-500 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 focus:ring-offset-2"
@@ -64,11 +66,10 @@ export default function Welcome(props) {
         <div className="max-w-xl">
           <h2 className="text-2xl">What is Ephemeral Feedback?</h2>
           <p>
-            Sapiente tenetur consequatur aspernatur. Quia consequatur
-            consectetur perspiciatis qui. Quod autem officia numquam officiis
-            dolor. Voluptatibus velit quam asperiores corrupti ut voluptatem
-            consectetur ut. Fugiat maiores eius dolore ab fugit consequatur
-            assumenda aut. Dolorem quia vel tempora accusantium aut.
+            Ephemeral Feedback allows you to create a custom subdomain which you
+            can use to collect anonymous feedback from others. Simply choose a
+            subdomain name, create a feedback page, and share the link! All
+            subdomains are automatically deleted after 7 days.
           </p>
         </div>
       </div>

@@ -70,7 +70,7 @@ export default function Feedback(props) {
         />
       ));
   } else {
-    feedbackCards = <div>No feedback found</div>;
+    feedbackCards = <div className="text-center">No feedback found</div>;
   }
 
   let content;
@@ -105,14 +105,35 @@ export default function Feedback(props) {
       </div>
     );
   } else {
-    content = <div>No subdomain found</div>;
+    content = (
+      <div className="flex flex-col items-center w-full">
+        <div className="w-full md:w-1/2 lg:w-1/3">
+          <p className="text-center">
+            No such subdomain found.{" "}
+            <a
+              className="text-indigo-700 border-b-2 border-transparent hover:border-indigo-700"
+              href="http://www.localhost:3000"
+            >
+              Try creating one?
+            </a>
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <>
       <Header title="Feedback"></Header>
       <div className="flex flex-col items-center w-full min-h-screen bg-gray-50">
-        <h1 className="p-2 m-10 text-5xl">Ephemeral Feedback</h1>
+        <h1 className="p-2 m-10 text-5xl">
+          <a
+            className="border-b-4 border-transparent hover:text-indigo-700 hover:border-indigo-700"
+            href="http://www.localhost:3000"
+          >
+            Ephemeral Feedback
+          </a>
+        </h1>
         {content}
       </div>
     </>
