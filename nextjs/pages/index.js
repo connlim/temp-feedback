@@ -12,6 +12,7 @@ export default function Index(props) {
         subdomain={props.subdomain}
         subdomainExists={props.subdomainExists}
         feedback={props.feedback}
+        createdAt={props.createdAt}
       />
     );
   }
@@ -54,6 +55,7 @@ export async function getServerSideProps(context) {
         props: {
           subdomain,
           feedback,
+          createdAt: res.data.createdAt,
           subdomainExists: true,
         },
       };
@@ -62,6 +64,7 @@ export async function getServerSideProps(context) {
         props: {
           subdomain,
           feedback: [],
+          createdAt: 0,
           subdomainExists: false,
         },
       };

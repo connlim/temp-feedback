@@ -9,7 +9,7 @@ dayjs.extend(relativeTime);
 
 function FeedbackCard(props) {
   return (
-    <div className="flex flex-col p-6 m-2 text-left bg-white border border-gray-300 rounded-lg">
+    <div className="flex flex-col p-6 my-2 text-left bg-white border border-gray-300 rounded-lg">
       <div className="self-end text-gray-600">
         {dayjs.unix(props.dateTime).fromNow()}
       </div>
@@ -76,8 +76,18 @@ export default function Feedback(props) {
   let content;
   if (props.subdomainExists) {
     content = (
-      <div className="flex flex-col items-center w-full">
-        <div className="flex flex-col items-center w-full px-12 pt-10 pb-8 m-2 bg-white shadow-md mb-14 xl:w-1/2 rounded-2xl">
+      <div className="flex flex-col items-center w-full p-2">
+        <div className="flex flex-col items-center w-full px-6 pt-5 pb-8 bg-white shadow-md sm:px-12 mb-14 xl:w-1/2 rounded-2xl">
+          <p className="mb-4 text-2xl font-semibold">
+            {props.subdomain}.tempfeedback.com
+          </p>
+          <p className="mb-6 text-sm">
+            This feedback page will be deleted after{" "}
+            <span className="font-bold">
+              {dayjs.unix(props.createdAt).add(7, "day").format("MMM D")}
+            </span>
+            .
+          </p>
           <textarea
             className="w-full px-4 py-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-400 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
             value={inputText}
@@ -101,7 +111,7 @@ export default function Feedback(props) {
             {isSubmitting ? " Sending..." : "Submit"}
           </button>
         </div>
-        <div className="w-full md:w-1/2 lg:w-1/3">{feedbackCards}</div>
+        <div className="w-full md:w-2/3 xl:w-1/3">{feedbackCards}</div>
       </div>
     );
   } else {
@@ -126,7 +136,7 @@ export default function Feedback(props) {
     <>
       <Header title="Feedback"></Header>
       <div className="flex flex-col items-center w-full min-h-screen bg-gray-50">
-        <h1 className="p-2 m-10 text-5xl">
+        <h1 className="p-2 m-8 text-5xl">
           <a
             className="border-b-4 border-transparent hover:text-indigo-700 hover:border-indigo-700"
             href="http://www.localhost:3000"
