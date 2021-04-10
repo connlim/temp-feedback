@@ -28,7 +28,7 @@ exports.handler = async (event) => {
       console.log(error);
       if (error.code === "ConditionalCheckFailedException") {
         return {
-          statusCode: 400,
+          statusCode: 409,
           body: JSON.stringify("Subdomain already exists!"),
         };
       } else {
