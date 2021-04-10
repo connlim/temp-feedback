@@ -11,7 +11,7 @@ exports.handler = async (event) => {
   try {
     // Get list of items to delete
     const scanParams = {
-      TableName: "EphemeralFeedback",
+      TableName: "TempFeedback",
       ProjectionExpression: "subdomain",
       FilterExpression: "createdAt < :date",
       ExpressionAttributeValues: {
@@ -32,7 +32,7 @@ exports.handler = async (event) => {
     for (let i = 0; i < items.length; i += 25) {
       let deleteParams = {
         RequestItems: {
-          EphemeralFeedback: items.slice(i, i + 25).map((item) => {
+          TempFeedback: items.slice(i, i + 25).map((item) => {
             return {
               DeleteRequest: {
                 Key: item,

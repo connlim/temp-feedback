@@ -131,7 +131,7 @@ export default function Feedback(props) {
             className="border-b-4 border-transparent hover:text-indigo-700 hover:border-indigo-700"
             href="http://www.localhost:3000"
           >
-            Ephemeral Feedback
+            Temp Feedback
           </a>
         </h1>
         {content}

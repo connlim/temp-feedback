@@ -7,19 +7,19 @@ exports.handler = async (event) => {
   if (event.queryStringParameters && event.queryStringParameters.subdomain) {
     console.log("Received subdomain: " + event.queryStringParameters.subdomain);
     const params = {
-      TableName: "EphemeralFeedback",
-      KeyConditionExpression: "subdomain = :sub",
-      ExpressionAttributeValues: {
-        ":sub": event.queryStringParameters.subdomain,
+      TableName: "TempFeedback",
+      Key: {
+        subdomain: event.queryStringParameters.subdomain,
       },
     };
     try {
-      const data = await ddb.query(params).promise();
+      const data = await ddb.get(params).promise();
       return {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          feedback: data.Items[0].feedback,
+          feedback: data.Item.feedback,
+          createdAt: data.Item.createdAt,
         }),
       };
     } catch (error) {

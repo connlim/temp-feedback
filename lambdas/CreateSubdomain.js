@@ -8,7 +8,7 @@ exports.handler = async (event) => {
   if (body && body.subdomain) {
     console.log("Received body: " + event.body);
     const params = {
-      TableName: "EphemeralFeedback",
+      TableName: "TempFeedback",
       Item: {
         subdomain: body.subdomain,
         createdAt: Math.floor(Date.now() / 1000),

@@ -30,9 +30,9 @@ export default function Welcome(props) {
 
   return (
     <>
-      <Header title="Ephemeral Feedback"></Header>
+      <Header title="Temp Feedback"></Header>
       <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-gray-50">
-        <h1 className="mb-5 text-5xl">Ephemeral Feedback</h1>
+        <h1 className="mb-5 text-5xl">Temp Feedback</h1>
         <h2 className="mb-10 text-md">
           Create a temporary URL to collect feedback!
         </h2>
@@ -45,7 +45,7 @@ export default function Welcome(props) {
               onChange={updateSubdomainInput}
             />
             <span className="inline-block mt-2 ml-2 text-md md:text-xl">
-              .ephemeralfeedback.com
+              .tempfeedback.com
             </span>
           </div>
           <button
@@ -64,9 +64,9 @@ export default function Welcome(props) {
           </button>
         </div>
         <div className="max-w-xl">
-          <h2 className="text-2xl">What is Ephemeral Feedback?</h2>
+          <h2 className="text-2xl">What is Temp Feedback?</h2>
           <p>
-            Ephemeral Feedback allows you to create a custom subdomain which you
+            Temp Feedback allows you to create a custom subdomain which you
             can use to collect anonymous feedback from others. Simply choose a
             subdomain name, create a feedback page, and share the link! All
             subdomains are automatically deleted after 7 days.
