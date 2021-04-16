@@ -31,7 +31,7 @@ export async function getServerSideProps(context) {
   } else {
     try {
       const res = await axios.get(
-        "https://07ncbm8zzg.execute-api.us-east-2.amazonaws.com/GetFeedbackFromSubdomain",
+        "https://api.tempfeedback.com/GetFeedbackFromSubdomain",
         { params: { subdomain: subdomain } }
       );
       let feedback;

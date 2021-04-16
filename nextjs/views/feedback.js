@@ -38,7 +38,7 @@ export default function Feedback(props) {
     setIsSubmitting(true);
     axios
       .post(
-        "https://07ncbm8zzg.execute-api.us-east-2.amazonaws.com/AddFeedback",
+        "https://api.tempfeedback.com/AddFeedback",
         { subdomain: props.subdomain, feedback: inputText }
       )
       .then(function (res) {

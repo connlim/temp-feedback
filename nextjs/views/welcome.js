@@ -18,7 +18,7 @@ export default function Welcome(props) {
     setIsSubmitting(true);
     axios
       .post(
-        "https://07ncbm8zzg.execute-api.us-east-2.amazonaws.com/CreateSubdomain",
+        "https://api.tempfeedback.com/CreateSubdomain",
         { subdomain: inputText }
       )
       .then(function (res) {
@@ -58,7 +58,7 @@ export default function Welcome(props) {
               </span>
             </div>
             <input
-              className="cursor-pointer w-32 px-4 py-2 mt-8 font-semibold text-white bg-indigo-500 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 focus:ring-offset-2"
+              className="w-32 px-4 py-2 mt-8 font-semibold text-white bg-indigo-500 rounded-full cursor-pointer hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 focus:ring-offset-2"
               type="submit"
               value={isSubmitting ? " Creating..." : "Create"}
             />
