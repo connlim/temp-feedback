@@ -1,0 +1,106 @@
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  APIDomainName:
+    Type: String
+    Default: api.tempfeedback.com
+    Description: The domain name for the feedback API
+  APICertificateArn:
+    Type: String
+    Description: The AWS Certificate Manager ARN for the given domain name
+
+Resources:
+  TempFeedbackTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: TempFeedback
+      PrimaryKey:
+        Name: subdomain
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  TempFeedbackAPI:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Domain:
+        DomainName: !Ref APIDomainName
+        CertificateArn: !Ref APICertificateArn
+      CorsConfiguration:
+        AllowHeaders:
+          - authorization
+          - content-type
+          - "*"
+        AllowMethods:
+          - "*"
+        AllowOrigins:
+          - "*"
+
+  AddFeedbackFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: AddFeedback.handler
+      Runtime: nodejs14.x
+      CodeUri: ./lambdas/AddFeedback
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref TempFeedbackTable
+      Events:
+        HttpApiEvent:
+          Type: HttpApi
+          Properties:
+            Path: /AddFeedback
+            Method: POST
+            ApiId: !Ref TempFeedbackAPI
+
+  CreateSubdomainFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: CreateSubdomain.handler
+      Runtime: nodejs14.x
+      CodeUri: ./lambdas/CreateSubdomain
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref TempFeedbackTable
+      Events:
+        HttpApiEvent:
+          Type: HttpApi
+          Properties:
+            Path: /CreateSubdomain
+            Method: POST
+            ApiId: !Ref TempFeedbackAPI
+
+  DeleteOldSubdomainsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: DeleteOldSubdomains.handler
+      Runtime: nodejs14.x
+      CodeUri: ./lambdas/DeleteOldSubdomains
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TempFeedbackTable
+      Events:
+        CWSchedule:
+          Type: Schedule
+          Properties:
+            Description: Run DeleteOldSubdomainsFunction every day
+            Schedule: rate(1 day)
+            Enabled: True
+            
+  GetFeedbackFromSubdomainFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: GetFeedbackFromSubdomain.handler
+      Runtime: nodejs14.x
+      CodeUri: ./lambdas/GetFeedbackFromSubdomain
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref TempFeedbackTable
+      Events:
+        HttpApiEvent:
+          Type: HttpApi
+          Properties:
+            Path: /GetFeedbackFromSubdomain
+            Method: GET
+            ApiId: !Ref TempFeedbackAPI
