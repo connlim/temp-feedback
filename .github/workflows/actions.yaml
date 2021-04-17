@@ -27,3 +27,4 @@ jobs:
             --parameter-overrides \
               'APIDomainName=api.tempfeedback.com APICertificateArn=${{ secrets.AWS_CERTIFICATE_ARN }}' \
             --capabilities CAPABILITY_IAM
+            --no-fail-on-empty-changeset
