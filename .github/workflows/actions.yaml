@@ -26,5 +26,5 @@ jobs:
             --s3-bucket tempfeedback-bucket \
             --parameter-overrides \
               'APIDomainName=api.tempfeedback.com APICertificateArn=${{ secrets.AWS_CERTIFICATE_ARN }}' \
-            --capabilities CAPABILITY_IAM
+            --capabilities CAPABILITY_IAM \
             --no-fail-on-empty-changeset
