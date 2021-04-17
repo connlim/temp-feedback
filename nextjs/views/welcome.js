@@ -23,7 +23,7 @@ export default function Welcome(props) {
       )
       .then(function (res) {
         if (res.status === 200) {
-          window.location.href = `http://${res.data.subdomain}.localhost:3000`;
+          window.location.href = `https://${res.data.subdomain}.tempfeedback.com`;
         }
       })
       .catch(function (err) {

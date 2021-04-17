@@ -122,7 +122,7 @@ export default function Feedback(props) {
             No such subdomain found.{" "}
             <a
               className="text-indigo-700 border-b-2 border-transparent hover:border-indigo-700"
-              href="http://www.localhost:3000"
+              href="https://www.tempfeedback.com"
             >
               Try creating one?
             </a>
@@ -139,7 +139,7 @@ export default function Feedback(props) {
         <h1 className="p-2 m-8 text-5xl">
           <a
             className="border-b-4 border-transparent hover:text-indigo-700 hover:border-indigo-700"
-            href="http://www.localhost:3000"
+            href="https://www.tempfeedback.com"
           >
             Temp Feedback
           </a>
