@@ -134,7 +134,7 @@ export default function Feedback(props) {
 
   return (
     <>
-      <Header title="Feedback"></Header>
+      <Header title={props.subdomain + " - Temp Feedback"}></Header>
       <div className="flex flex-col items-center w-full min-h-screen bg-gray-50">
         <h1 className="p-2 m-8 text-5xl">
           <a
