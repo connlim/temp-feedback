@@ -7,6 +7,15 @@ exports.handler = async (event) => {
 
   if (body && body.subdomain) {
     console.log("Received body: " + event.body);
+
+    // Return error if subdomain name is invalid
+    if (!/^[a-z0-9\-]*$/.test(body.subdomain)) {
+      return {
+        statusCode: 422,
+        body: JSON.stringify("Invalid subdomain name!"),
+      };
+    }
+
     const params = {
       TableName: "TempFeedback",
       Item: {

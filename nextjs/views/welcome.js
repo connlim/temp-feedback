@@ -4,36 +4,45 @@ import { useState, useRef } from "react";
 
 export default function Welcome(props) {
   const [inputText, setInputText] = useState("");
-  const [showSubdomainAlreadyExists, setSubdomainAlreadyExists] = useState(
-    false
-  );
+  const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const updateSubdomainInput = (event) => {
     setInputText(event.target.value);
+    // Check if input is a valid subdomain
+    if (/^[a-z0-9\-]*$/.test(event.target.value)) {
+      setErrorMessage("");
+    } else {
+      setErrorMessage(
+        "Invalid subdomain name. Only lowercase letters, numbers, and hyphens are allowed."
+      );
+    }
   };
 
   const createSubdomain = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    axios
-      .post(
-        "https://api.tempfeedback.com/CreateSubdomain",
-        { subdomain: inputText }
-      )
-      .then(function (res) {
-        if (res.status === 200) {
-          window.location.href = `https://${res.data.subdomain}.tempfeedback.com`;
-        }
-      })
-      .catch(function (err) {
-        if (err.response.status === 409) {
-          setSubdomainAlreadyExists(true);
-        } else {
-          console.log(err);
-        }
-        setIsSubmitting(false);
-      });
+    if (inputText === "") {
+      setErrorMessage("Please enter a subdomain name");
+    } else if (/^[a-z0-9\-]+$/.test(inputText)) {
+      setIsSubmitting(true);
+      axios
+        .post("https://api.tempfeedback.com/CreateSubdomain", {
+          subdomain: inputText,
+        })
+        .then(function (res) {
+          if (res.status === 200) {
+            window.location.href = `https://${res.data.subdomain}.tempfeedback.com`;
+          }
+        })
+        .catch(function (err) {
+          if (err.response.status === 409) {
+            setErrorMessage("Subdomain already exists. Try another one?");
+          } else {
+            console.log(err);
+          }
+          setIsSubmitting(false);
+        });
+    }
   };
 
   return (
@@ -57,17 +66,15 @@ export default function Welcome(props) {
                 .tempfeedback.com
               </span>
             </div>
+            {errorMessage && (
+              <p className="pt-3 text-red-700">{errorMessage}</p>
+            )}
             <input
-              className="w-32 px-4 py-2 mt-8 font-semibold text-white bg-indigo-500 rounded-full cursor-pointer hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 focus:ring-offset-2"
+              className="w-32 px-4 py-2 mt-6 font-semibold text-white bg-indigo-500 rounded-full cursor-pointer hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 focus:ring-offset-2"
               type="submit"
               value={isSubmitting ? " Creating..." : "Create"}
             />
           </form>
-          {showSubdomainAlreadyExists && (
-            <p className="pt-3 text-red-700">
-              Subdomain already exists. Try another one?
-            </p>
-          )}
         </div>
         <div className="max-w-xl">
           <h2 className="text-2xl">What is Temp Feedback?</h2>
