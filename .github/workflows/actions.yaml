@@ -2,6 +2,9 @@ name: Deploy to AWS SAM
 on:
   push:
     branches: [master]
+    paths:
+      - "template.yaml"
+      - "lambdas/**"
 jobs:
   deploy-aws-sam:
     runs-on: ubuntu-latest
