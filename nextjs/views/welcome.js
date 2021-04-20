@@ -1,6 +1,7 @@
 import axios from "axios";
 import Header from "./header";
 import { useState, useRef } from "react";
+import randomWords from "random-words";
 
 export default function Welcome(props) {
   const [inputText, setInputText] = useState("");
@@ -45,6 +46,11 @@ export default function Welcome(props) {
     }
   };
 
+  const generateSubdomainName = (e) => {
+    e.preventDefault();
+    setInputText(randomWords(3).join("-"));
+  };
+
   return (
     <>
       <Header title="Temp Feedback"></Header>
@@ -74,6 +80,14 @@ export default function Welcome(props) {
               type="submit"
               value={isSubmitting ? " Creating..." : "Create"}
             />
+            <div className="w-full mt-3">
+              <a
+                className="text-sm text-indigo-700 cursor-pointer hover:underline"
+                onClick={generateSubdomainName}
+              >
+                Can't think of a name? Generate one automatically.
+              </a>
+            </div>
           </form>
         </div>
         <div className="max-w-xl">
