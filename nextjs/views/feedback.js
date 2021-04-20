@@ -77,17 +77,14 @@ export default function Feedback(props) {
   if (props.subdomainExists) {
     content = (
       <div className="flex flex-col items-center w-full p-2">
-        <div className="flex flex-col items-center w-full px-6 pt-5 pb-8 bg-white shadow-md sm:px-12 mb-14 xl:w-1/2 rounded-2xl">
-          <p className="mb-4 text-2xl font-semibold">
+        <div className="flex flex-col items-center w-full px-6 pt-5 pb-8 bg-white shadow-md sm:px-12 xl:w-1/2 rounded-2xl">
+          <p>Share this link:</p>
+          <a
+            className="mb-8 text-2xl font-semibold underline hover:text-indigo-700"
+            href={`https://${props.subdomain}.tempfeedback.com`}
+          >
             {props.subdomain}.tempfeedback.com
-          </p>
-          <p className="mb-6 text-sm">
-            This feedback page will be deleted after{" "}
-            <span className="font-bold">
-              {dayjs.unix(props.createdAt).add(7, "day").format("MMM D")}
-            </span>
-            .
-          </p>
+          </a>
           <textarea
             className="w-full px-4 py-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-400 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
             value={inputText}
@@ -111,6 +108,13 @@ export default function Feedback(props) {
             {isSubmitting ? " Sending..." : "Submit"}
           </button>
         </div>
+        <p className="my-6 text-sm">
+          This feedback page will be deleted after{" "}
+          <span className="font-bold">
+            {dayjs.unix(props.createdAt).add(7, "day").format("MMM D")}
+          </span>
+          .
+        </p>
         <div className="w-full md:w-2/3 xl:w-1/3">{feedbackCards}</div>
       </div>
     );
