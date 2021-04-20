@@ -37,10 +37,10 @@ export default function Feedback(props) {
   const submitFeedback = () => {
     setIsSubmitting(true);
     axios
-      .post(
-        "https://api.tempfeedback.com/AddFeedback",
-        { subdomain: props.subdomain, feedback: inputText }
-      )
+      .post("https://api.tempfeedback.com/AddFeedback", {
+        subdomain: props.subdomain,
+        feedback: inputText,
+      })
       .then(function (res) {
         if (res.status === 200) {
           setAdditionalFeedback([res.data].concat(additionalFeedback));
