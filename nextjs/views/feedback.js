@@ -86,7 +86,7 @@ export default function Feedback(props) {
             {props.subdomain}.tempfeedback.com
           </a>
           <p className="mb-4 text-sm">
-            This feedback page will be deleted after{" "}
+            This feedback page will be automatically deleted after{" "}
             <span className="font-bold">
               {dayjs.unix(props.createdAt).add(7, "day").format("MMM D")}
             </span>
@@ -97,7 +97,7 @@ export default function Feedback(props) {
             value={inputText}
             rows="6"
             onChange={updateFeedbackInput}
-            placeholder="Enter your feedback here!"
+            placeholder="Type your feedback here!"
           />
           <button
             className="w-32 px-4 py-2 mt-8 font-semibold text-white bg-indigo-500 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 focus:ring-offset-2"
@@ -140,7 +140,7 @@ export default function Feedback(props) {
     <>
       <Header title={props.subdomain + " - Temp Feedback"}></Header>
       <div className="flex flex-col items-center w-full min-h-screen bg-gray-50">
-        <h1 className="p-2 m-8 text-5xl">
+        <h1 className="p-2 mt-8 text-4xl">
           <a
             className="border-b-4 border-transparent hover:text-indigo-700 hover:border-indigo-700"
             href="https://www.tempfeedback.com"
@@ -148,6 +148,7 @@ export default function Feedback(props) {
             Temp Feedback
           </a>
         </h1>
+        <h2 className="mb-8 text-sm">Anonymous feedback collection platform</h2>
         {content}
       </div>
     </>
