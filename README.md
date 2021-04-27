@@ -66,7 +66,14 @@ docker volume create tempfeedback-db
 docker network create tempfeedback-network
 
 # Start DynamoDB container
-docker run -d --name tempfeedback-dynamodb -v tempfeedback-db:/home/dynamodblocal --network tempfeedback-network -p 8000:8000 -w /home/dynamodblocal amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb -dbPath .
+docker run -d \
+    --name tempfeedback-dynamodb \
+    -v tempfeedback-db:/home/dynamodblocal \
+    --network tempfeedback-network \
+    -p 8000:8000 \
+    -w /home/dynamodblocal \
+    amazon/dynamodb-local \
+    -jar DynamoDBLocal.jar -sharedDb -dbPath .
 
 # Create TempFeedback table in DynamoDB
 aws dynamodb create-table \
