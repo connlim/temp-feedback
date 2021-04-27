@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Header from "./header";
+import { API_ENDPOINT } from "../pages/index";
 
 dayjs.extend(relativeTime);
 
@@ -37,7 +38,7 @@ export default function Feedback(props) {
   const submitFeedback = () => {
     setIsSubmitting(true);
     axios
-      .post("https://api.tempfeedback.com/AddFeedback", {
+      .post(API_ENDPOINT + "/AddFeedback", {
         subdomain: props.subdomain,
         feedback: inputText,
       })

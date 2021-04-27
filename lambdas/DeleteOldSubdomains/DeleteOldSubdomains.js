@@ -1,5 +1,9 @@
 const AWS = require("aws-sdk");
-const ddb = new AWS.DynamoDB.DocumentClient();
+const options = {};
+if (process.env.AWS_SAM_LOCAL) {
+  options.endpoint = "http://tempfeedback-dynamodb:8000";
+}
+const ddb = new AWS.DynamoDB.DocumentClient(options);
 
 exports.handler = async (event) => {
   console.log("Received event: " + JSON.stringify(event));

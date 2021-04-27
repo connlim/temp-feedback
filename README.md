@@ -24,28 +24,29 @@ The following is an example of an item in the table represented in JSON:
 
 ```json
 {
-    "subdomain": "test-subdomain",
-    "createdAt": 1618669283,
-    "feedback": [
-        {
-            "dateTime": 1618669341,
-            "text": "This is a piece of feedback."
-        },
-        {
-            "dateTime": 1618669504,
-            "text": "This is another piece of feedback."
-        }
-    ]
+  "subdomain": "test-subdomain",
+  "createdAt": 1618669283,
+  "feedback": [
+    {
+      "dateTime": 1618669341,
+      "text": "This is a piece of feedback."
+    },
+    {
+      "dateTime": 1618669504,
+      "text": "This is another piece of feedback."
+    }
+  ]
 }
 ```
 
-
 ## Usage
 
-### Frontend
+### Development
+
+#### Frontend
 
 ```bash
-# Start development server on http://localhost:3000
+# Start development server on http://localhost:8080
 npm run dev
 
 # Build for production
@@ -53,7 +54,46 @@ npm run build
 npm run start
 ```
 
-### Backend Deployment
+#### Backend
+
+Run the following commands to set up a local development environment
+
+```bash
+# Create Docker volume for DynamoDB
+docker volume create tempfeedback-db
+
+# Create Docker network
+docker network create tempfeedback-network
+
+# Start DynamoDB container
+docker run -d --name tempfeedback-dynamodb -v tempfeedback-db:/home/dynamodblocal --network tempfeedback-network -p 8000:8000 -w /home/dynamodblocal amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb -dbPath .
+
+# Create TempFeedback table in DynamoDB
+aws dynamodb create-table \
+    --endpoint-url http://localhost:8000 \
+    --table-name TempFeedback \
+    --attribute-definitions AttributeName=subdomain,AttributeType=S \
+    --key-schema AttributeName=subdomain,KeyType=HASH \
+    --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+
+# Build and run SAM API locally
+sam build
+sam local start-api --docker-network tempfeedback-network
+```
+
+Note that you will need to rerun `sam build` after making changes to `template.yaml` or any of the lambda code.
+
+Here is a list of endpoints in the local dev environment:
+| Service | Endpoint |
+| --- | --- |
+| Next.js Site | http://localhost:8080 |
+| SAM API | http://localhost:3000 |
+| DynamoDB (from host)| http://localhost:8000|
+| DynamoDB (from Docker network)| http://tempfeedback-dynamodb:8000|
+
+### Production
+
+#### Backend
 
 These instructions assume that you are using non-Amazon nameservers for your API domain. If you are using Route 53, it is possible to automate the extra steps.
 

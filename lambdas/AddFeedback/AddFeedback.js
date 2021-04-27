@@ -1,5 +1,9 @@
 const AWS = require("aws-sdk");
-const ddb = new AWS.DynamoDB.DocumentClient();
+const options = {};
+if (process.env.AWS_SAM_LOCAL) {
+  options.endpoint = "http://tempfeedback-dynamodb:8000";
+}
+const ddb = new AWS.DynamoDB.DocumentClient(options);
 
 exports.handler = async (event) => {
   console.log("Received event: " + JSON.stringify(event));
@@ -7,7 +11,10 @@ exports.handler = async (event) => {
 
   if (body && body.subdomain && body.feedback) {
     console.log("Received body: " + event.body);
-    const newFeedback = { text: body.feedback, dateTime: Math.floor(Date.now() / 1000) };
+    const newFeedback = {
+      text: body.feedback,
+      dateTime: Math.floor(Date.now() / 1000),
+    };
     const params = {
       TableName: "TempFeedback",
       Key: {
@@ -38,11 +45,19 @@ exports.handler = async (event) => {
       if (error.code === "ConditionalCheckFailedException") {
         return {
           statusCode: 400,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
           body: JSON.stringify("No such subdomain found!"),
         };
       } else {
         return {
           statusCode: 400,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
           body: JSON.stringify("Error adding feedback."),
         };
       }
@@ -50,6 +65,10 @@ exports.handler = async (event) => {
   } else {
     return {
       statusCode: 400,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify("Invalid request!"),
     };
   }

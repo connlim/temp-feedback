@@ -4,7 +4,7 @@ export default function Header(props) {
   return (
     <Head>
       <title>{props.title}</title>
-      <meta charset="utf-8" />
+      <meta charSet="utf-8" />
       <meta
         name="description"
         content="Anonymous feedback collection platform"

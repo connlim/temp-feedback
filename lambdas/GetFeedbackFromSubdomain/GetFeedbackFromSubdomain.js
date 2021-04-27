@@ -1,5 +1,9 @@
 const AWS = require("aws-sdk");
-const ddb = new AWS.DynamoDB.DocumentClient();
+const options = {};
+if (process.env.AWS_SAM_LOCAL) {
+  options.endpoint = "http://tempfeedback-dynamodb:8000";
+}
+const ddb = new AWS.DynamoDB.DocumentClient(options);
 
 exports.handler = async (event) => {
   console.log("Received event: " + JSON.stringify(event));
@@ -16,7 +20,10 @@ exports.handler = async (event) => {
       const data = await ddb.get(params).promise();
       return {
         statusCode: 200,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify({
           feedback: data.Item.feedback,
           createdAt: data.Item.createdAt,
@@ -25,12 +32,20 @@ exports.handler = async (event) => {
     } catch (error) {
       return {
         statusCode: 404,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify("No such subdomain found!"),
       };
     }
   } else {
     return {
       statusCode: 400,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify("No subdomain given!"),
     };
   }

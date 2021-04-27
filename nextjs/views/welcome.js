@@ -2,6 +2,7 @@ import axios from "axios";
 import Header from "./header";
 import { useState, useRef } from "react";
 import randomWords from "random-words";
+import { API_ENDPOINT } from "../pages/index";
 
 export default function Welcome(props) {
   const [inputText, setInputText] = useState("");
@@ -27,7 +28,7 @@ export default function Welcome(props) {
     } else if (/^[a-z0-9\-]+$/.test(inputText)) {
       setIsSubmitting(true);
       axios
-        .post("https://api.tempfeedback.com/CreateSubdomain", {
+        .post(API_ENDPOINT + "/CreateSubdomain", {
           subdomain: inputText,
         })
         .then(function (res) {

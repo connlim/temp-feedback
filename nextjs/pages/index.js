@@ -18,6 +18,13 @@ export default function Index(props) {
   }
 }
 
+export let API_ENDPOINT;
+if (process.env.NODE_ENV === "production") {
+  API_ENDPOINT = "https://api.tempfeedback.com";
+} else {
+  API_ENDPOINT = "http://localhost:3000";
+}
+
 export async function getServerSideProps(context) {
   const subdomain = context.req.headers.host.split(".")[0];
 
@@ -30,10 +37,9 @@ export async function getServerSideProps(context) {
     };
   } else {
     try {
-      const res = await axios.get(
-        "https://api.tempfeedback.com/GetFeedbackFromSubdomain",
-        { params: { subdomain: subdomain } }
-      );
+      const res = await axios.get(API_ENDPOINT + "/GetFeedbackFromSubdomain", {
+        params: { subdomain: subdomain },
+      });
       let feedback;
       if ("feedback" in res.data) {
         feedback = res.data.feedback;

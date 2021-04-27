@@ -42,7 +42,7 @@ Resources:
     Properties:
       Handler: AddFeedback.handler
       Runtime: nodejs14.x
-      CodeUri: ./lambdas/AddFeedback
+      CodeUri: lambdas/AddFeedback
       Policies:
         - DynamoDBWritePolicy:
             TableName: !Ref TempFeedbackTable
@@ -59,7 +59,7 @@ Resources:
     Properties:
       Handler: CreateSubdomain.handler
       Runtime: nodejs14.x
-      CodeUri: ./lambdas/CreateSubdomain
+      CodeUri: lambdas/CreateSubdomain
       Policies:
         - DynamoDBWritePolicy:
             TableName: !Ref TempFeedbackTable
@@ -76,7 +76,7 @@ Resources:
     Properties:
       Handler: DeleteOldSubdomains.handler
       Runtime: nodejs14.x
-      CodeUri: ./lambdas/DeleteOldSubdomains
+      CodeUri: lambdas/DeleteOldSubdomains
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref TempFeedbackTable
@@ -93,7 +93,7 @@ Resources:
     Properties:
       Handler: GetFeedbackFromSubdomain.handler
       Runtime: nodejs14.x
-      CodeUri: ./lambdas/GetFeedbackFromSubdomain
+      CodeUri: lambdas/GetFeedbackFromSubdomain
       Policies:
         - DynamoDBReadPolicy:
             TableName: !Ref TempFeedbackTable
