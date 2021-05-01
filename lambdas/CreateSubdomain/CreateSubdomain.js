@@ -13,7 +13,11 @@ exports.handler = async (event) => {
     console.log("Received body: " + event.body);
 
     // Return error if subdomain name is invalid
-    if (!/^[a-z0-9\-]*$/.test(body.subdomain)) {
+    if (
+      body.subdomain === "api" ||
+      body.subdomain === "www" ||
+      !/^[a-z0-9\-]*$/.test(body.subdomain)
+    ) {
       return {
         statusCode: 422,
         body: JSON.stringify("Invalid subdomain name!"),

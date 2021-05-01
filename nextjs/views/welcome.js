@@ -24,7 +24,11 @@ export default function Welcome(props) {
   const createSubdomain = (e) => {
     e.preventDefault();
     if (inputText === "") {
-      setErrorMessage("Please enter a subdomain name");
+      setErrorMessage("Please enter a name for the feedback page.");
+    } else if (inputText === "api" || inputText === "www") {
+      setErrorMessage(
+        "This name is a reserved word. Please try something else."
+      );
     } else if (/^[a-z0-9\-]+$/.test(inputText)) {
       setIsSubmitting(true);
       axios
@@ -65,7 +69,7 @@ export default function Welcome(props) {
             <div className="w-full">
               <input
                 className="p-2 text-lg text-center text-gray-700 placeholder-gray-400 bg-white border-b-2 border-gray-400 outline-none appearance-none md:text-3xl md:text-right focus:border-indigo-600"
-                placeholder="your-custom-subdomain"
+                placeholder="your-custom-name"
                 value={inputText}
                 onChange={updateSubdomainInput}
               />
