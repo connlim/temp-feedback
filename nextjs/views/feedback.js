@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import axios from "axios";
 import Header from "./header";
 import { API_ENDPOINT } from "../pages/index";
@@ -23,7 +22,6 @@ export default function Feedback(props) {
   const [additionalFeedback, setAdditionalFeedback] = useState([]);
   const [inputText, setInputText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     setIsSubmitting(false);

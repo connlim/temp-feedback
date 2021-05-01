@@ -1,6 +1,6 @@
 import axios from "axios";
 import Header from "./header";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import randomWords from "random-words";
 import { API_ENDPOINT } from "../pages/index";
 
