@@ -46,6 +46,11 @@ The following is an example of an item in the table represented in JSON:
 #### Frontend
 
 ```bash
+cd nextjs/
+
+# Intall dependencies
+npm install 
+
 # Start development server on http://localhost:8080
 npm run dev
 
@@ -93,7 +98,7 @@ Note that you will need to rerun `sam build` after making changes to `template.y
 Here is a list of endpoints in the local dev environment:
 | Service | Endpoint |
 | --- | --- |
-| Next.js Site | http://localhost:8080 |
+| Next.js Site | http://www.localhost:8080 |
 | SAM API | http://localhost:3000 |
 | DynamoDB (from host)| http://localhost:8000|
 | DynamoDB (from Docker network)| http://tempfeedback-dynamodb:8000|
@@ -119,7 +124,7 @@ Then do the following:
 1. Create an empty S3 bucket to which the SAM template and lambda functions will be uploaded. The same bucket can then be used for subsequent deployments
 2. Create a certificate for your API's domain in [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) and copy the given certificate arn
 
-You can now run the following commands. The [AWS SAM CLI tool](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) is required.
+You can now run the following commands 
 
 ```bash
 sam validate
