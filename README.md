@@ -1,6 +1,7 @@
 # Temp Feedback
 
 ![Deploy to AWS SAM](https://github.com/connlim/temp-feedback/actions/workflows/actions.yaml/badge.svg)
+![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=temp-feedback)
 
 Website which creates temporary URLs to collect anonymous feedback from others.
 
