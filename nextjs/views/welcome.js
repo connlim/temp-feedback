@@ -53,6 +53,7 @@ export default function Welcome(props) {
 
   const generateSubdomainName = (e) => {
     e.preventDefault();
+    setErrorMessage("");
     setInputText(randomWords(3).join("-"));
   };
 
