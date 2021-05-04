@@ -7,7 +7,7 @@ export default function Header(props) {
       <meta charSet="utf-8" />
       <meta
         name="description"
-        content="Anonymous feedback collection platform"
+        content="Temp Feedback lets you create a custom page which you can use to collect feedback from others. People can simply visit your feedback page on their device to submit their feedback anonymously. To protect your privacy, all subdomains are automatically deleted after 7 days."
       />
 
       <link
