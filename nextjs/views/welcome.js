@@ -100,9 +100,9 @@ export default function Welcome(props) {
           <h2 className="text-2xl">What is Temp Feedback?</h2>
           <p>
             Temp Feedback lets you create a custom page which you can use to
-            collect feedback from others. Simply share your feedback page with
-            others to have them submit their feedback anonymously. All
-            subdomains are automatically deleted after 7 days.
+            collect feedback from others. Simply create your own feedback page
+            and share it with your friends to have them submit their feedback
+            anonymously. All subdomains are automatically deleted after 7 days.
           </p>
         </div>
         <div className="max-w-xl">
